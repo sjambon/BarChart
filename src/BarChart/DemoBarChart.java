@@ -8,6 +8,7 @@ package BarChart;
  */
 public class DemoBarChart {
 
+
     /**
      * Het hoofdprogramma die de BarChart klasse volledig uittest.
      *
@@ -53,7 +54,6 @@ public class DemoBarChart {
 
         // Scenario 7 gegroepeerd kolomdiagram
         System.out.println(chart3groups.makeChart('V', false));
-
 
     }
 
