@@ -37,14 +37,14 @@ public class DemoBarChart {
 
         // Scenario 5 gegroepeerd staafdiagram
         System.out.println(chart3groups.makeChart('H',false));
-/*
+
         // Scenario 6 gestapeld staafdiagram
         System.out.println(chart3groups.makeChart('H',true));
 
         // Scenario 7 gegroepeerd kolomdiagram
         System.out.println(chart3groups.makeChart('V',false));
 
-       */
+
     }
     
 }

@@ -30,10 +30,13 @@ public class BarChart {
 
     public boolean putGroupData(String groupName, char symbol, int[] data) {
         int eersteLegePlaats = 0;
-        for (String group : groups) {
-            if (group != null) {
-                eersteLegePlaats++;
-                break;
+        for (String item : groups) {
+            if (item != null) {
+                if (eersteLegePlaats == groups.length - 1) {
+                    return false;
+                } else {
+                    eersteLegePlaats++;
+                }
             }
         }
         for (String name : groups) {
@@ -54,10 +57,22 @@ public class BarChart {
 
     public String showData() {
         String outputString = "";
-        for (int i = 0; i < groups.length; i++) {
-            outputString += "Title :\t" + TITLE + "\nData :\n\t\t" + groups[i] + "\n";
-            for (int j = 0; j < categories.length; j++) {
+        if (NRGROUPS == 1) {
+            outputString += "Title :\t" + TITLE + "\nData :\n\t\t" + groups[0] + "\n";
+        } else {
+            outputString += "Title :\t" + TITLE + "\nData :\n\t\t\t";
+            for (int i = 0; i < groups.length; i++) {
+                outputString += groups[i] + "\t";
             }
+            outputString += "\n";
+            for (int j = 0; j < data.length; j++) {
+                outputString += categories[j] + "\t\t";
+                for (int k = 0; k < data[j].length; k++) {
+                    outputString += data[j][k] + "\t\t";
+                }
+                outputString += "\n";
+            }
+            outputString += "\n\n";
         }
         return outputString;
     }
@@ -86,41 +101,50 @@ public class BarChart {
         String outputString = "";
         outputString += "Title :\t" + TITLE + "\n\n";
         if (orientation == "H".charAt(0)) {
-            if (!stacked) {
-                for (int k = 0; k < data.length; k++) {
-                    for (int i = 0; i < data[k].length; i++) {
-                        outputString += categories[i] + "\t";
-                        int amount = data[k][i];
-                        for (int j = 0; j < amount; j++) {
-                            outputString += symbols[k];
-                        }
-                        outputString += "\n\n";
+            for (int i = 0; i < data[0].length; i++) {
+                outputString += categories[i] + "\t\t";
+                for (int j = 0; j < data.length; j++) {
+                    if (j != 0 && !stacked) {
+                        outputString += "\t\t\t";
+                    }
+                    int amount = data[j][i];
+                    for (int k = 0; k < amount; k++) {
+                        outputString += symbols[j];
+                    }
+                    if (!stacked) {
+                        outputString += "\n";
                     }
                 }
-                outputString += "\n" + showLegend();
-            } else {
-                //TODO: Stacked horizontal graph maken.
+                outputString += "\n";
             }
+            outputString += "\n" + showLegend();
         } else if (orientation == "V".charAt(0)) {
-            int maxValue = maxValueTable(this.data);
-            char[][] outputArray = new char[maxValue][data.length * data[0].length];
             if (!stacked) {
-                int categorie = 0;
-                for (int i = 0; i < outputArray.length; i++) {
-                    for (int j = 0; j < outputArray[i].length; j++) {
-                        if (i < data[categorie][j]) {
-                            outputArray[i][j] = symbols[categorie];
+                int maxValue = maxValueTable(this.data);
+                for (int i = maxValue; i > 0; i--) {
+                    for (int k = 0; k < data[0].length; k++) {
+                        for (int j = 0; j < data.length; j++) {
+                            if (data[j][k] >= i) {
+                                outputString += symbols[j];
+                            } else {
+                                outputString += " ";
+                            }
+                            outputString += " ";
                         }
+                        outputString += "\t\t";
                     }
+                    outputString += "\n";
                 }
-                //TODO: verticale graph maken.
+                for (String categorie : categories) {
+                    outputString += categorie + "\t\t";
+                }
+                outputString += "\n\n\n" + showLegend();
             } else {
-                //Buiten de scope van dit project.
+                System.out.println("Buiten de scope van dit project.");
             }
         } else {
             System.out.println("ERROR: ongeldige orientatie.");
         }
         return outputString;
     }
-
 }
