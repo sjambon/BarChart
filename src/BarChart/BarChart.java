@@ -116,23 +116,19 @@ public class BarChart {
      */
     public String showData() {
         String outputString = "";
-        if (NRGROUPS == 1) {
-            outputString += "Title :\t" + TITLE + "\nData :\n\t\t" + groups[0] + "\n";
-        } else {
-            outputString += "Title :\t" + TITLE + "\nData :\n\t\t\t";
-            for (int i = 0; i < groups.length; i++) {
-                outputString += groups[i] + "\t";
+        outputString += "Title :\t" + TITLE + "\nData :\n\t\t\t";
+        for (int i = 0; i < groups.length; i++) {
+            outputString += groups[i] + "\t";
+        }
+        outputString += "\n";
+        for (int k = 0; k < data[0].length; k++) {
+            outputString += categories[k] + "\t\t";
+            for (int j = 0; j < data.length; j++) {
+                outputString += data[j][k] + "\t\t";
             }
             outputString += "\n";
-            for (int j = 0; j < data.length; j++) {
-                outputString += categories[j] + "\t\t";
-                for (int k = 0; k < data[j].length; k++) {
-                    outputString += data[j][k] + "\t\t";
-                }
-                outputString += "\n";
-            }
-            outputString += "\n\n";
         }
+        outputString += "\n";
         return outputString;
     }
 
