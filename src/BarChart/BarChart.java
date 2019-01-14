@@ -83,25 +83,20 @@ public class BarChart {
      * @return Booleanse waarde die zegt of de data al dan niet is toegevoegd.
      */
     public boolean putGroupData(String groupName, char symbol, int[] data) {
-        int eersteLegePlaats = 0;
-        for (String item : groups) {
-            if (item != null) {
-                if (eersteLegePlaats == groups.length - 1) {
-                    return false;
-                } else {
-                    eersteLegePlaats++;
-                }
+        int eersteLegePlaats = -1;
+        for (int i = 0; i < groups.length; i++) {
+            if (groups[i] == null) {
+                eersteLegePlaats = i;
+                break;
             }
         }
-        for (String name : groups) {
-            if (groupName.equals(name)) {
+        for (int i = 0; i < groups.length; i++) {
+            if (groupName.equals(groups[i]) || symbol == symbols[i]) {
                 return false;
             }
         }
-        for (char item : symbols) {
-            if (item == symbol) {
-                return false;
-            }
+        if (eersteLegePlaats == -1) {
+            return false;
         }
         this.groups[eersteLegePlaats] = groupName;
         this.symbols[eersteLegePlaats] = symbol;
@@ -117,14 +112,14 @@ public class BarChart {
     public String showData() {
         String outputString = "";
         outputString += "Title :\t" + TITLE + "\nData :\n\t\t\t";
-        for (int i = 0; i < groups.length; i++) {
-            outputString += groups[i] + "\t";
+        for (String group : groups) {
+            outputString += group + "\t";
         }
         outputString += "\n";
         for (int k = 0; k < data[0].length; k++) {
             outputString += categories[k] + "\t\t";
-            for (int j = 0; j < data.length; j++) {
-                outputString += data[j][k] + "\t\t";
+            for (int[] datum : data) {
+                outputString += datum[k] + "\t\t";
             }
             outputString += "\n";
         }
@@ -153,10 +148,10 @@ public class BarChart {
      */
     private int maxValueTable(int[][] tabel) {
         int maxVal = 0;
-        for (int i = 0; i < tabel.length; i++) {
-            for (int j = 0; j < tabel[i].length; j++) {
-                if (tabel[i][j] > maxVal) {
-                    maxVal = tabel[i][j];
+        for (int[] rij : tabel) {
+            for (int item : rij) {
+                if (item > maxVal) {
+                    maxVal = item;
                 }
             }
         }
